@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Office MIS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f7f4',
+              100: '#dceee5',
+              500: '#2d6a4f',
+              600: '#245a42',
+              700: '#1b4332',
+              900: '#081c15',
+            },
+          },
+          fontFamily: {
+            display: ['"Source Serif 4"', 'Georgia', 'serif'],
+            sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet" />
+</head>
+<body class="min-h-screen bg-gradient-to-br from-brand-50 via-slate-50 to-slate-100 font-sans text-brand-900 antialiased">
+  <header class="border-b border-brand-100/80 bg-white/80 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+      <div>
+        <p class="text-xs font-semibold tracking-[0.18em] text-brand-600 uppercase">Office MIS</p>
+        <h1 class="font-display text-xl font-semibold sm:text-2xl">Dashboard</h1>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="text-right">
+          <p id="user-name" class="text-sm font-semibold text-slate-800">Loading…</p>
+          <p id="user-role" class="text-xs capitalize text-slate-500"></p>
+        </div>
+        <form action="/auth/logout" method="POST">
+          <button
+            type="submit"
+            class="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+          >
+            Log out
+          </button>
+        </form>
+        <!-- After logout, server redirects to /login (React + shadcn) -->
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div class="mb-8">
+      <h2 class="font-display text-2xl font-semibold">
+        Welcome back<span id="welcome-name"></span>
+      </h2>
+      <p class="mt-1 text-slate-600">You are signed in. HR and fees modules will be added in the next steps.</p>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-lg border border-dashed border-slate-300 bg-white/70 p-5">
+        <p class="text-sm font-semibold text-slate-800">Employees</p>
+        <p class="mt-1 text-xs text-slate-500">Coming soon</p>
+      </div>
+      <div class="rounded-lg border border-dashed border-slate-300 bg-white/70 p-5">
+        <p class="text-sm font-semibold text-slate-800">Attendance</p>
+        <p class="mt-1 text-xs text-slate-500">Coming soon</p>
+      </div>
+      <div class="rounded-lg border border-dashed border-slate-300 bg-white/70 p-5">
+        <p class="text-sm font-semibold text-slate-800">Fees</p>
+        <p class="mt-1 text-xs text-slate-500">Coming soon</p>
+      </div>
+      <div class="rounded-lg border border-dashed border-slate-300 bg-white/70 p-5">
+        <p class="text-sm font-semibold text-slate-800">Reports</p>
+        <p class="mt-1 text-xs text-slate-500">Coming soon</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    async function loadUser() {
+      try {
+        const res = await fetch('/auth/me');
+        if (!res.ok) {
+          window.location.href = '/login.html';
+          return;
+        }
+        const user = await res.json();
+        document.getElementById('user-name').textContent = user.name;
+        document.getElementById('user-role').textContent = user.role;
+        document.getElementById('welcome-name').textContent = ', ' + user.name;
+      } catch (err) {
+        window.location.href = '/login.html';
+      }
+    }
+    loadUser();
+  </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — Office MIS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f7f4',
+              100: '#dceee5',
+              500: '#2d6a4f',
+              600: '#245a42',
+              700: '#1b4332',
+              900: '#081c15',
+            },
+          },
+          fontFamily: {
+            display: ['"Source Serif 4"', 'Georgia', 'serif'],
+            sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet" />
+</head>
+<body class="min-h-screen font-sans text-brand-900 antialiased">
+  <div class="relative flex min-h-screen">
+    <!-- Atmosphere panel -->
+    <div class="relative hidden w-1/2 overflow-hidden bg-brand-700 lg:block">
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(220,238,229,0.25),_transparent_55%),radial-gradient(ellipse_at_bottom_right,_rgba(8,28,21,0.5),_transparent_50%)]"></div>
+      <div class="absolute -left-20 top-24 h-72 w-72 rounded-full bg-brand-500/30 blur-3xl"></div>
+      <div class="absolute bottom-16 right-10 h-64 w-64 rounded-full bg-brand-100/10 blur-3xl"></div>
+      <div class="relative z-10 flex h-full flex-col justify-between p-12 text-brand-50">
+        <p class="text-sm font-medium tracking-[0.2em] uppercase text-brand-100/80">Office MIS</p>
+        <div>
+          <h1 class="font-display text-4xl leading-tight font-semibold xl:text-5xl">
+            Manage people<br />and payments<br />in one place.
+          </h1>
+          <p class="mt-4 max-w-sm text-base text-brand-100/80">
+            HR attendance, leave, and staff fees — built for everyday office work.
+          </p>
+        </div>
+        <p class="text-sm text-brand-100/60">Step 1 · Secure sign-in</p>
+      </div>
+    </div>
+
+    <!-- Form panel -->
+    <div class="flex w-full flex-col justify-center bg-gradient-to-br from-brand-50 via-white to-slate-100 px-6 py-12 lg:w-1/2 lg:px-16">
+      <div class="mx-auto w-full max-w-md">
+        <p class="mb-2 text-sm font-semibold tracking-wide text-brand-600 uppercase lg:hidden">Office MIS</p>
+        <h2 class="font-display text-3xl font-semibold text-brand-900">Sign in</h2>
+        <p class="mt-2 text-slate-600">Use your office account to continue.</p>
+
+        <div id="error-box" class="mt-6 hidden rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert"></div>
+
+        <form action="/auth/login" method="POST" class="mt-8 space-y-5">
+          <div>
+            <label for="email" class="mb-1.5 block text-sm font-medium text-slate-700">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              autocomplete="username"
+              placeholder="admin@office.local"
+              class="w-full rounded-md border border-slate-300 bg-white px-3.5 py-2.5 text-slate-900 shadow-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+            />
+          </div>
+          <div>
+            <label for="password" class="mb-1.5 block text-sm font-medium text-slate-700">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              autocomplete="current-password"
+              placeholder="••••••••"
+              class="w-full rounded-md border border-slate-300 bg-white px-3.5 py-2.5 text-slate-900 shadow-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full rounded-md bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          >
+            Sign in
+          </button>
+        </form>
+
+        <p class="mt-8 text-xs text-slate-500">
+          Default admin: <span class="font-medium text-slate-700">admin@office.local</span> /
+          <span class="font-medium text-slate-700">Admin@123</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
+    const box = document.getElementById('error-box');
+    const messages = {
+      missing: 'Please enter both email and password.',
+      invalid: 'Invalid email or password. Please try again.',
+      server: 'Something went wrong. Check that MySQL is running and try again.',
+    };
+    if (error && messages[error]) {
+      box.textContent = messages[error];
+      box.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

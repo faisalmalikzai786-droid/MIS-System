@@ -1,0 +1,27 @@
+{
+  "name": "office-mis",
+  "version": "1.0.0",
+  "description": "Office MIS — HR and Fees management system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node database/seed.js",
+    "dev:client": "npm run dev --prefix client",
+    "build:client": "npm run build --prefix client",
+    "dev": "npm run dev:client"
+  },
+  "keywords": [
+    "mis",
+    "office",
+    "hr",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1"
+  }
+}
