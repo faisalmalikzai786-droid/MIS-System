@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "Office MIS — HR and Fees management system",
   "main": "server.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "node server.js",
     "seed": "node database/seed.js",
     "dev:client": "npm run dev --prefix client",
     "build:client": "npm run build --prefix client",
+    "build": "npm install --prefix client && npm run build:client",
     "dev": "npm run dev:client"
   },
   "keywords": [

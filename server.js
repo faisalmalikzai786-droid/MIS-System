@@ -4,11 +4,17 @@ const fs = require('fs');
 const express = require('express');
 const session = require('express-session');
 const authRoutes = require('./routes/auth');
+const { ensureSeed } = require('./lib/ensureSeed');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const isProd = process.env.NODE_ENV === 'production';
 const clientDist = path.join(__dirname, 'client', 'dist');
 const hasClientBuild = fs.existsSync(path.join(clientDist, 'index.html'));
+
+if (isProd) {
+  app.set('trust proxy', 1);
+}
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,6 +27,8 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 8,
+      secure: isProd,
+      sameSite: isProd ? 'lax' : undefined,
     },
   })
 );
@@ -68,6 +76,16 @@ if (hasClientBuild) {
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`Course MIS at http://localhost:${PORT}`);
-});
+async function start() {
+  try {
+    await ensureSeed();
+  } catch (err) {
+    console.error('Seed on startup failed:', err);
+  }
+
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Course MIS at http://localhost:${PORT}`);
+  });
+}
+
+start();
