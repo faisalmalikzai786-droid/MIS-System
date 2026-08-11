@@ -9,6 +9,12 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "22"
+      # Render may set NODE_ENV=production during build, which causes npm to
+      # skip devDependencies. We need dev deps (vite types, @types/node).
+      - key: NODE_ENV
+        value: development
+      - key: NPM_CONFIG_PRODUCTION
+        value: "false"
       - key: SESSION_SECRET
         generateValue: true
       - key: DB_PATH
